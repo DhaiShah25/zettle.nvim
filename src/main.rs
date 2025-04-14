@@ -16,18 +16,23 @@ fn main() {
         };
 
         let reader = std::io::BufReader::new(file);
-        let Some(line) = reader
+        if let Some(line) = reader
             .lines()
             .filter_map(Result::ok)
             .find(|line| line.starts_with("# "))
-        else {
-            continue;
+        {
+            println!(
+                "{{\"{}\", \"{}\" }},",
+                line.strip_prefix("# ").unwrap(),
+                path.display()
+            );
+        } else {
+            println!(
+                "{{\"{}\", \"{}\" }},",
+                entry.file_name().to_str().unwrap(),
+                path.display()
+            );
         };
-        println!(
-            "\"{}\" = \"{}\"",
-            line.strip_prefix("# ").unwrap(),
-            path.display()
-        );
     }
     println!("}}");
 }
