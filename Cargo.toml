@@ -5,4 +5,9 @@ edition = "2024"
 
 [dependencies]
 ignore = "0.4.23"
-rayon = "1.10.0"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
