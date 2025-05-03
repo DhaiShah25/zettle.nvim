@@ -4,12 +4,17 @@ local conf = require("telescope.config").values
 
 local M = {}
 
-M.names = function(opts)
-	opts = opts or {}
+local opts = {}
 
-	local obj = vim.system({ "zettle", "/home/dhai/vault" }, { text = true }):wait()
+M.setup = function(u_opts)
+	opts = u_opts or {
+		dir = "~/vault",
+	}
+end
+
+M.names = function()
+	local obj = vim.system({ "zettle", vim.fn.expand(opts.dir) }, { text = true }):wait()
 	local tbl_func = loadstring("return " .. obj.stdout)
-	vim.print(f)
 	local files = tbl_func and tbl_func() or {}
 
 	pickers
