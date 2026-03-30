@@ -18,7 +18,7 @@ fn main() {
         let reader = std::io::BufReader::new(file);
         if let Some(line) = reader
             .lines()
-            .filter_map(Result::ok)
+            .map_while(Result::ok)
             .find(|line| line.starts_with("# "))
         {
             println!(
